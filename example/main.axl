@@ -1,0 +1,5 @@
+package axl.example
+
+fn main(args: List<String>) -> Int {
+    println("Hello, world!")
+}
