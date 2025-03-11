@@ -1,8 +1,10 @@
 package axl.compiler.lexer;
 
 import axl.compiler.lexer.data.Token;
-import axl.compiler.lexer.data.TokenFrame;
+import axl.compiler.lexer.data.TokenStreamFrame;
 import axl.compiler.lexer.data.TokenType;
+
+import java.util.List;
 
 public interface TokenStream {
 
@@ -14,11 +16,9 @@ public interface TokenStream {
 
     void back();
 
-    TokenFrame saveFrame();
+    TokenStreamFrame saveFrame();
 
-    void restoreFrame(TokenFrame frame);
+    void restoreFrame(TokenStreamFrame frame);
 
-    void enable(TokenType type);
-
-    void disable(TokenType type);
+    void setContext(List<TokenType> allowed);
 }

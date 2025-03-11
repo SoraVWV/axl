@@ -1,4 +1,4 @@
 package axl.compiler.lexer.data;
 
-public interface TokenFrame {
+public interface TokenStreamFrame {
 }

@@ -65,8 +65,10 @@ public enum TokenType {
     AS(TokenGroup.OPERATOR, "as"), // `obj as String`
 
     PACKAGE(TokenGroup.KEYWORD, "package"),
+    IMPORT(TokenGroup.KEYWORD, "import"),
+    STRUCT(TokenGroup.KEYWORD, "struct"),
 
-    FN(TokenGroup.KEYWORD, "fn"),
+//    FN(TokenGroup.KEYWORD, "fn"),
     RETURN(TokenGroup.KEYWORD, "return"),
     VAL(TokenGroup.KEYWORD, "val"),
     VAR(TokenGroup.KEYWORD, "var"),
@@ -74,8 +76,6 @@ public enum TokenType {
     ELSE(TokenGroup.KEYWORD, "else"),
     FOR(TokenGroup.KEYWORD, "for"),
     WHILE(TokenGroup.KEYWORD, "while"),
-    SWITCH(TokenGroup.KEYWORD, "switch"),
-    CASE(TokenGroup.KEYWORD, "case"),
 
     TRUE(TokenGroup.LITERAL, "true"),
     FALSE(TokenGroup.LITERAL, "false"),

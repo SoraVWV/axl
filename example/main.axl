@@ -91,46 +91,37 @@ var `a + b` = sum(a + b)
 
 struct Vector1 {
 
-    open var x: Double = 0
+    var x: Double = 0
 
-    open val sum = (obj: Vector1) -> Vector1
+    val sum = (obj: Vector1) -> Vector1
         new Vector1(this.x + obj.x)
 
-    open val sub = (obj: Vector1) -> Vector1
+    val sub = (obj: Vector1) -> Vector1
         new Vector1(this.x - obj.x)
 
-    open val mul = (obj: Vector1) -> Vector1
+    val mul = (obj: Vector1) -> Vector1
         new Vector1(this.x * obj.x)
 
-    open val div = (obj: Vector1) -> Vector1
+    val div = (obj: Vector1) -> Vector1
         new Vector1(this.x / obj.x)
 }
 
 struct Vector2 -> Vector1 {
 
-    open var y: Double = 0
+    var y: Double = 0
 
-    override open val sum = (obj: Vector1) -> Vector2
-        new Vector2(this.x + obj.x, this.y)
+    val sum = (obj: Any) -> Vector2
+        if obj is Vector2
+            new Vector2(this.x + obj.x, this.y + obj.y)
+        else
+            new Vector2(this.x + obj.x, this.y)
 
-    override open val sub = (obj: Vector1) -> Vector2
+    val sub = (obj: Any) -> Vector2
         new Vector2(this.x - obj.x, this.y)
 
-    override open val mul = (obj: Vector1) -> Vector2
+    val mul = (obj: Any) -> Vector2
         new Vector2(this.x * obj.x, this.y)
 
-    override open val div = (obj: Vector1) -> Vector2
+    val div = (obj: Any) -> Vector2
         new Vector2(this.x / obj.x, this.y)
-
-    open val sum = (obj: Vector2) -> Vector2
-        new Vector2(this.x + obj.x, this.y + obj.y)
-
-    open val sub = (obj: Vector2) -> Vector2
-        new Vector2(this.x - obj.x, this.y - obj.y)
-
-    open val mul = (obj: Vector2) -> Vector2
-        new Vector2(this.x * obj.x, this.y * obj.y)
-
-    open val div = (obj: Vector2) -> Vector2
-        new Vector2(this.x / obj.x, this.y / obj.y)
 }
