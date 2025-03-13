@@ -1,10 +1,23 @@
 package axl.compiler.lexer.data;
 
-public interface Token {
+import lombok.Data;
 
-    int getLine();
+@Data
+public class Token {
 
-    int getColumn();
+    private int line;
 
-    TokenType getType();
+    private int column;
+
+    private int length;
+
+    private int offset;
+
+    private TokenType type;
+
+    public static Token of(TokenType type) {
+        Token token = new Token();
+        token.type = type;
+        return token;
+    }
 }

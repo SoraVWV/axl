@@ -68,7 +68,7 @@ public enum TokenType {
     IMPORT(TokenGroup.KEYWORD, "import"),
     STRUCT(TokenGroup.KEYWORD, "struct"),
 
-//    FN(TokenGroup.KEYWORD, "fn"),
+    FN(TokenGroup.KEYWORD, "fn"),
     RETURN(TokenGroup.KEYWORD, "return"),
     VAL(TokenGroup.KEYWORD, "val"),
     VAR(TokenGroup.KEYWORD, "var"),
@@ -76,6 +76,7 @@ public enum TokenType {
     ELSE(TokenGroup.KEYWORD, "else"),
     FOR(TokenGroup.KEYWORD, "for"),
     WHILE(TokenGroup.KEYWORD, "while"),
+    THIS(TokenGroup.KEYWORD, "this"),
 
     TRUE(TokenGroup.LITERAL, "true"),
     FALSE(TokenGroup.LITERAL, "false"),
