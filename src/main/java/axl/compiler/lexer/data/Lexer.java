@@ -103,7 +103,7 @@ public class Lexer {
     }
 
     public LexerFrame currentFrame() {
-        return new LexerFrame(offset, line, column);
+        return new LexerFrame(line, column, offset);
     }
 
     public String slice() {

@@ -58,7 +58,6 @@ public class TokenStreamTest {
         Lexer lexer = new Lexer();
         stream.setLexer(lexer);
         lexer.setContent(content);
-        lexer.setFrame(lexer.currentFrame());
 
         stream.setIdentify(new LexerIdentify());
         stream.setOperator(new LexerOperator());
