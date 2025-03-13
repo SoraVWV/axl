@@ -2,11 +2,13 @@ package axl.compiler.parser;
 
 import axl.compiler.parser.data.Node;
 
-public interface NodeVisitor<N> {
+public interface NodeVisitor<AcceptNode extends Node<?>> {
     
-    void enter(Node node);
+    default void enter(AcceptNode node) {
+    }
 
-    N visit(Node node);
+    void visit(AcceptNode node);
 
-    void exit(Node node);
+    default void exit(AcceptNode node) {
+    }
 }

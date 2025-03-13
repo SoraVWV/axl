@@ -22,7 +22,7 @@ val main: () = {
 // typed / non-body
 fn main() -> Type
 
-// non-type (Type Inference) / body
+    // non-type (Type Inference) / body
 fn main() stmt
 
 // typed / body

@@ -19,8 +19,10 @@ public class TokenStreamTest {
 
     private static final String content = """
     fn main(args: Array<String>) -> Int {
-        println("Hello, World!")
-        return 0
+        println("Hello, World!") /*
+            jlfkdvf
+        */
+        return 0 // rer
     }
     """;
 
