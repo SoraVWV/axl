@@ -2,7 +2,6 @@ image: maven:3.9-amazoncorretto-23
 
 stages:
   - test
-  - deploy
 
 analyze-tests:
   stage: test
@@ -10,20 +9,13 @@ analyze-tests:
     - axl
   script:
     - mvn clean test
+    - mvn jacoco:report
+    - java -cp target/classes:target/test-classes:$(mvn dependency:build-classpath | grep -v '\[INFO\]' | tr -d '\n') com.github.michaelruocco.jacocotojunit.JacocoToJunit target/site/jacoco/jacoco.xml target/junit-reports/jacoco-junit.xml
   artifacts:
+    reports:
+      junit: target/junit-reports/jacoco-junit.xml
     paths:
       - target/site/jacoco/
-    reports:
-      junit: target/surefire-reports/*.xml
   cache:
     paths:
       - .m2/repository
-
-pages:
-  stage: deploy
-  script:
-    - mkdir public
-    - cp -r target/site/jacoco/* public/
-  artifacts:
-    paths:
-      - public
