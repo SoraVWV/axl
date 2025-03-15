@@ -10,6 +10,8 @@ analyze-tests:
   script:
     - mvn clean test
   artifacts:
+    paths:
+      - target/site/jacoco/
     reports:
       junit: target/surefire-reports/*.xml
   cache:
