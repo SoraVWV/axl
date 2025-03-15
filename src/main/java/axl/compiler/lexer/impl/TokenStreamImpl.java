@@ -10,6 +10,7 @@ import axl.compiler.lexer.impl.feature.LexerIdentify;
 import axl.compiler.lexer.impl.feature.LexerLiteral;
 import lombok.Data;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -22,6 +23,8 @@ public class TokenStreamImpl implements TokenStream {
     private LexerFeature operator;
 
     private LexerLiteral literal;
+
+    private final List<Token> tokens = new ArrayList<>();
 
     @Override
     public boolean hasNext() {
@@ -55,6 +58,8 @@ public class TokenStreamImpl implements TokenStream {
 
         lexer.skip();
         lexer.setToken(token);
+        lexer.setTokenId(lexer.getTokenId() + 1);
+        tokens.add(token);
 
         return token;
     }
@@ -65,22 +70,30 @@ public class TokenStreamImpl implements TokenStream {
     }
 
     @Override
-    public void back() {
-
-    }
-
-    @Override
     public LexerFrame saveFrame() {
-        return null;
+        return lexer.currentFrame();
     }
 
     @Override
     public void restoreFrame(LexerFrame frame) {
-
+        lexer.restoreFrame(frame);
     }
 
     @Override
     public void setContext(List<TokenType> allowed) {
         lexer.setContext(allowed);
+    }
+
+    @Override
+    public List<TokenType> getContext() {
+        return getLexer().getContext();
+    }
+
+    @Override
+    public int peekLastLine(LexerFrame frame) {
+        if (frame.getTokenId() - 1 < 0)
+            return 0;
+
+        return tokens.get(frame.getTokenId() - 1).getLine();
     }
 }

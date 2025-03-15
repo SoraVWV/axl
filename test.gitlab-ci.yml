@@ -1,0 +1,18 @@
+image: maven:3.9.6-openjdk-23
+
+stages:
+  - test
+
+unit-tests:
+  stage: test
+  script:
+    - mvn --version
+    - mvn clean test
+  artifacts:
+    reports:
+      junit: target/surefire-reports/*.xml  # Save JUnit logs
+  cache:
+    paths:
+      - .m2/repository/
+  only:
+    - main

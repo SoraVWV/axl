@@ -17,7 +17,7 @@ public class ImportNode implements Node<RootNode> {
         this.parent = parent;
     }
 
-    private Token packageToken;
+    private Token importToken;
 
     private List<Token> location;
 

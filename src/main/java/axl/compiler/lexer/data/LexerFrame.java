@@ -12,4 +12,6 @@ public class LexerFrame {
     private int column;
 
     private int offset;
+
+    private int tokenId;
 }

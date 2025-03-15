@@ -1,5 +1,6 @@
 package axl.compiler.lexer.data;
 
+import axl.compiler.lexer.exception.IllegalLexerContentException;
 import lombok.Data;
 
 import java.util.List;
@@ -20,6 +21,8 @@ public class Lexer {
     private Token token;
 
     private LexerFrame frame;
+
+    private int tokenId;
 
     public void next(int n) {
         for (int i = 0; i < n; i++)
@@ -78,13 +81,12 @@ public class Lexer {
     }
 
     public void skipMultilineComment() {
-//        TokenizerFrame localFrame = currentFrame();
+        LexerFrame localFrame = currentFrame();
         next(2);
 
         while (peek(0) != '*' || peek(1) != '/') {
             if (isEnd())
-                throw new IllegalArgumentException();
-//                throw new IllegalLexicalException("Multiline comment was not closed", this, localFrame);
+                throw new IllegalLexerContentException(localFrame, "Multiline comment was not closed");
 
             next();
         }
@@ -97,13 +99,18 @@ public class Lexer {
     }
 
     public void restoreFrame() {
+        restoreFrame(frame);
+    }
+
+    public void restoreFrame(LexerFrame frame) {
         this.offset = frame.getOffset();
         this.column = frame.getColumn();
         this.line = frame.getLine();
+        this.tokenId = frame.getTokenId();
     }
 
     public LexerFrame currentFrame() {
-        return new LexerFrame(line, column, offset);
+        return new LexerFrame(line, column, offset, tokenId);
     }
 
     public String slice() {

@@ -14,11 +14,13 @@ public interface TokenStream {
 
     Token peek();
 
-    void back();
-
     LexerFrame saveFrame();
 
     void restoreFrame(LexerFrame frame);
 
     void setContext(List<TokenType> allowed);
+
+    List<TokenType> getContext();
+
+    int peekLastLine(LexerFrame frame);
 }
