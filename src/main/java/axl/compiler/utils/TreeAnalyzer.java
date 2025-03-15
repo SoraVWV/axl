@@ -1,42 +1,51 @@
-package axl.compiler.other;
+package axl.compiler.utils;
 
-import axl.compiler.parser.data.Node;
+import lombok.Data;
 
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
-public class Analyzer {
-    private final List<Visitor> visitors;
-    private final Queue<NodeElement> queue = new LinkedList<>();
+@Data
+public class TreeAnalyzer<Node> {
+
+    private final List<Visitor<Node>> visitors;
+
+    private final Queue<NodeEntry> queue = new LinkedList<>();
+
     private boolean running = false;
 
-    public Analyzer(List<Visitor> visitors) {
+    public TreeAnalyzer(List<Visitor<Node>> visitors) {
         this.visitors = visitors;
     }
 
-    public void analyze(Node<?> first) {
-        queue.add(new NodeElement(Type.ENTER, first));
+    public void analyze(Node first) {
+        queue.add(new NodeEntry(Type.ENTER, first));
+
         if (running)
             return;
         running = true;
+
         while (!queue.isEmpty()) {
-            NodeElement element = queue.remove();
+            NodeEntry element = queue.remove();
             switch (element.type) {
                 case ENTER -> {
                     visitors.forEach(visitor -> visitor.enter(this, element.node));
-                    queue.add(new NodeElement(Type.EXIT, element.node));
+                    queue.add(new NodeEntry(Type.EXIT, element.node));
                 }
                 case EXIT -> visitors.forEach(visitor -> visitor.exit(this, element.node));
             }
         }
     }
 
-    private static final class NodeElement {
-        public final Type type;
-        public final Node<?> node;
+    @Data
+    private final class NodeEntry {
 
-        private NodeElement(Type type, Node<?> node) {
+        public final Type type;
+
+        public final Node node;
+
+        private NodeEntry(Type type, Node node) {
             this.type = type;
             this.node = node;
         }
