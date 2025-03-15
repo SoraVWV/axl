@@ -17,3 +17,12 @@ analyze-tests:
   cache:
     paths:
       - .m2/repository
+
+pages:
+  stage: deploy
+  script:
+    - mkdir public
+    - cp -r target/site/jacoco/* public/
+  artifacts:
+    paths:
+      - public
