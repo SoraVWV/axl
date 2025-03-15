@@ -1,19 +1,20 @@
-image: openjdk:23-jdk
+image: maven:3.9-amazoncorretto-23
 
 stages:
   - test
 
-before_script:
-  - apt update && apt install -y maven
-
 unit-tests:
   stage: test
+  tags:
+    - axl
   script:
     - mvn --version
     - mvn clean test
   artifacts:
     reports:
-      junit: target/surefire-reports/*.xml
+      junit: target/surefire-reports/*.xml  # Save JUnit logs
   cache:
     paths:
       - .m2/repository/
+  only:
+    - main
