@@ -3,18 +3,15 @@ image: maven:3.9-amazoncorretto-23
 stages:
   - test
 
-unit-tests:
+analyze-tests:
   stage: test
   tags:
     - axl
   script:
-    - mvn --version
     - mvn clean test
   artifacts:
     reports:
-      junit: target/surefire-reports/*.xml  # Save JUnit logs
+      junit: target/surefire-reports/*.xml
   cache:
     paths:
-      - .m2/repository/
-  only:
-    - main
+      - .m2/repository
