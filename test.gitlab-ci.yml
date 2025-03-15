@@ -5,6 +5,8 @@ stages:
 
 unit-tests:
   stage: test
+  tags:
+    - axl
   script:
     - mvn --version
     - mvn clean test
