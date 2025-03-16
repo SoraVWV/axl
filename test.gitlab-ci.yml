@@ -25,6 +25,6 @@ deploy-jacoco:
     - axl
   script:
     - yum install -y sshpass
-    - sshpass -p "$SSH_PASSWORD" scp -o StrictHostKeyChecking=no -r target/site/jacoco/ $SSH_USER@$SSH_HOST:/sites/jacoco/
+    - sshpass -p "$SSH_PASSWORD" scp -o StrictHostKeyChecking=no -r target/site/jacoco/ $SSH_USER@$SSH_HOST:/sites/
   only:
     - main
