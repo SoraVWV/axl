@@ -2,6 +2,7 @@ image: maven:3.9-amazoncorretto-23
 
 stages:
   - test
+  - deploy
 
 analyze-tests:
   stage: test
@@ -9,13 +10,21 @@ analyze-tests:
     - axl
   script:
     - mvn clean test
-    - mvn jacoco:report
-    - java -cp target/classes:target/test-classes:$(mvn dependency:build-classpath | grep -v '\[INFO\]' | tr -d '\n') com.github.michaelruocco.jacocotojunit.JacocoToJunit target/site/jacoco/jacoco.xml target/junit-reports/jacoco-junit.xml
   artifacts:
-    reports:
-      junit: target/junit-reports/jacoco-junit.xml
     paths:
       - target/site/jacoco/
+    reports:
+      junit: target/surefire-reports/*.xml
   cache:
     paths:
       - .m2/repository
+
+deploy-jacoco:
+  stage: deploy
+  tags:
+    - axl
+  script:
+    - apt-get update && apt-get install -y sshpass
+    - sshpass -p "$SSH_PASSWORD" scp -o StrictHostKeyChecking=no -r target/site/jacoco/ $SSH_USER@$SSH_HOST:/sites/jacoco/
+  only:
+    - main
