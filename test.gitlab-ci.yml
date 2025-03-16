@@ -24,7 +24,7 @@ deploy-jacoco:
   tags:
     - axl
   script:
-    - apt-get update && apt-get install -y sshpass
+    - yum install -y sshpass
     - sshpass -p "$SSH_PASSWORD" scp -o StrictHostKeyChecking=no -r target/site/jacoco/ $SSH_USER@$SSH_HOST:/sites/jacoco/
   only:
     - main
