@@ -1,4 +1,7 @@
 package axl.compiler.utils.symboltable;
 
-public class JvmAccessFlag {
+public enum JvmAccessFlag {
+    PUBLIC, PRIVATE, PROTECTED, STATIC, FINAL, SYNCHRONIZED, VOLATILE,
+    TRANSIENT, SUPER, INTERFACE, ABSTRACT, STRICT, SYNTHETIC, ANNOTATION,
+    ENUM,
 }
