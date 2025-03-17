@@ -2,16 +2,14 @@ package axl.compiler.utils;
 
 import lombok.Data;
 
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 @Data
 public class TreeAnalyzer<Node> {
 
     private final List<Visitor<Node>> visitors;
 
-    private final Queue<NodeEntry> queue = new LinkedList<>();
+    private final Deque<Node> enterQueue = new LinkedList<>();
 
     private boolean running = false;
 
@@ -20,39 +18,45 @@ public class TreeAnalyzer<Node> {
     }
 
     public void analyze(Node first) {
-        queue.add(new NodeEntry(Type.ENTER, first));
+        enterQueue.add(first);
 
         if (running)
             return;
         running = true;
 
-        while (!queue.isEmpty()) {
-            NodeEntry element = queue.remove();
-            switch (element.type) {
-                case ENTER -> {
-                    visitors.forEach(visitor -> visitor.enter(this, element.node));
-                    queue.add(new NodeEntry(Type.EXIT, element.node));
+        List<NodeEntry> exitPool = new ArrayList<>();
+
+        while (!enterQueue.isEmpty()) {
+            Node node = enterQueue.remove();
+            int startLen = enterQueue.size();
+
+            visitors.forEach(visitor -> visitor.enter(this, node));
+
+            int diff = enterQueue.size() - startLen;
+            if (diff > 0)
+                exitPool.add(new NodeEntry(node, diff));
+            else visitors.forEach(visitor -> visitor.exit(this, node));
+
+            for (int i = 0; i < exitPool.size();) {
+                NodeEntry entry = exitPool.get(i);
+                if (--entry.countdown < 0) {
+                    exitPool.remove(entry);
+                    visitors.forEach(visitor -> visitor.exit(this, entry.node));
+                    continue;
                 }
-                case EXIT -> visitors.forEach(visitor -> visitor.exit(this, element.node));
+                i++;
             }
         }
     }
 
     @Data
     private final class NodeEntry {
-
-        public final Type type;
-
         public final Node node;
+        public int countdown;
 
-        private NodeEntry(Type type, Node node) {
-            this.type = type;
+        private NodeEntry(Node node, int countdown) {
             this.node = node;
+            this.countdown = countdown;
         }
-    }
-
-    private enum Type {
-        ENTER,
-        EXIT
     }
 }
