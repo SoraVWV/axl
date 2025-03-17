@@ -10,7 +10,8 @@ mirror_to_github:
     fi
 
     git remote add gitlab https://SoraVWV:$GITHUB_TOKEN@github.com/SoraVWV/axl.git
-    git push --mirror gitlab
+    git push --all
+    git push --tags
 
     echo "Mirrored from GitLab" | git commit --allow-empty -F -
     git push origin
