@@ -2,22 +2,18 @@ mirror_to_github:
   stage: mirror
   image: ruby:2.7
   needs: []
-  script:
-    - echo "Checking if commit is from GitHub mirroring..."
-    - if git log -1 --pretty=format:'%s' | grep -q 'Mirrored from GitHub'; then
-      echo "Commit is from GitHub mirroring. Skipping...";
-      exit 0;
-      fi
+  script: |
+    if git log -1 --pretty=format:'%s' | grep -q 'Mirrored from GitHub'; then
+      echo "::set-output name=is_mirrored::true"
+    else
+      echo "::set-output name=is_mirrored::false"
+    fi
 
-    - echo "Removing existing remote 'github' if it exists..."
-    - git remote remove github || true
+    git remote add gitlab https://SoraVWV:$GITHUB_TOKEN@github.com/SoraVWV/axl.git
+    git push --mirror gitlab
 
-    - echo "Mirroring to GitHub..."
-    - git remote add github "https://$GITHUB_TOKEN@github.com/SoraVWV/axl.git"
-    - git push --mirror github
+    echo "Mirrored from GitLab" | git commit --allow-empty -F -
+    git push origin
 
-    - echo "Adding mirror commit message..."
-    - echo "Mirrored from GitLab" | git commit --allow-empty -F -
-    - git push origin
   variables:
     GITHUB_TOKEN: $GITHUB_TOKEN
