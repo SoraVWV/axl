@@ -9,7 +9,7 @@
 
 ## Тесты
 
-Детали по покрытии тестами доступны по [ссылке](https://jacoco.axolotl-lang.ru/) 
+Детали по покрытии тестами доступны по [ссылке](https://jacoco.axolotl-lang.ru/)
 
 Успешные и провальные тесты доступны в последних [pipelines](https://gitlab.axolotl-lang.ru/lite/compiler/-/pipelines)
 
