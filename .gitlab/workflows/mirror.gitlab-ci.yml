@@ -9,8 +9,11 @@ mirror_to_github:
       exit 0;
       fi
 
+    - echo "Removing existing remote 'github' if it exists..."
+    - git remote remove github || true
+
     - echo "Mirroring to GitHub..."
-    - git remote add github https://$GITHUB_TOKEN@github.com/lite/compiler.git
+    - git remote add github "https://$GITHUB_TOKEN@github.com/lite/compiler.git"
     - git push --mirror github
 
     - echo "Adding mirror commit message..."
