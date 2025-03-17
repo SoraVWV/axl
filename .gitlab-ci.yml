@@ -1,8 +1,6 @@
 include:
-  - '.gitlab/workflows/mirror.gitlab-ci.yml'
   - '.gitlab/workflows/test.gitlab-ci.yml'
 
 stages:
-  - mirror
   - test
   - deploy
