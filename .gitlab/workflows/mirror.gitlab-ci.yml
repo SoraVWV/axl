@@ -8,6 +8,8 @@ mirror_to_github:
     else
       echo "::set-output name=is_mirrored::false"
     fi
+    
+    git remote remove github || true
 
     git remote add github https://SoraVWV:$GITHUB_TOKEN@github.com/SoraVWV/axl.git
     git push --all

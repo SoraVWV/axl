@@ -25,6 +25,11 @@ jobs:
             echo "::set-output name=is_mirrored::false"
           fi
 
+      - name: Remove remote
+        if: steps.check_commit.outputs.is_mirrored == 'false'
+        run: |
+          git remote remove github || true
+
       - name: Mirror to GitLab
         if: steps.check_commit.outputs.is_mirrored == 'false'
         run: |
