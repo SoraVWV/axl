@@ -28,7 +28,7 @@ jobs:
       - name: Mirror to GitLab
         if: steps.check_commit.outputs.is_mirrored == 'false'
         run: |
-          git remote add gitlab https://oauth2:$GITLAB_TOKEN@gitlab.axolotl-lang.ru/compiler/lite.git
+          git remote add gitlab https://oauth2:$GITLAB_TOKEN@gitlab.axolotl-lang.ru/lite/compiler.git
           git push --mirror gitlab
         env:
           GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
