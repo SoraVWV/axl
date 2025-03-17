@@ -10,7 +10,7 @@ mirror_to_github:
       fi
 
     - echo "Mirroring to GitHub..."
-    - git remote add github https://$GITHUB_TOKEN@github.com/your-username/your-repo.git
+    - git remote add github https://$GITHUB_TOKEN@github.com/lite/compiler.git
     - git push --mirror github
 
     - echo "Adding mirror commit message..."
