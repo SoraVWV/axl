@@ -16,7 +16,7 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Check if commit is from GitLab mirroring
+      - name: Check GitLab mirroring
         id: check_commit
         run: |
           if git log -1 --pretty=format:'%s' | grep -q 'Mirrored from GitLab'; then
