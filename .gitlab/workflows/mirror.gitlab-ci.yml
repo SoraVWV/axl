@@ -1,7 +1,6 @@
-image: ruby:2.7
-
 mirror_to_github:
   stage: mirror
+  image: ruby:2.7
   needs: []
   script:
     - echo "Checking if commit is from GitHub mirroring..."
