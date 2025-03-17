@@ -30,5 +30,8 @@ jobs:
         run: |
           git remote add gitlab https://axl:$GITLAB_TOKEN@gitlab.axolotl-lang.ru/lite/compiler.git
           git push --mirror gitlab
+
+          echo "Mirrored from GitHub" | git commit --allow-empty -F -
+          git push origin
         env:
           GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}

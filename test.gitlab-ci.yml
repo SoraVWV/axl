@@ -3,6 +3,7 @@ image: maven:3.9-amazoncorretto-23
 stages:
   - test
   - deploy
+  - mirror
 
 analyze-tests:
   stage: test
@@ -28,3 +29,22 @@ deploy-jacoco:
     - sshpass -p "$SSH_PASSWORD" scp -o StrictHostKeyChecking=no -r target/site/jacoco/ $SSH_USER@$SSH_HOST:/sites/
   only:
     - main
+
+mirror_to_github:
+  stage: mirror
+  script:
+    - echo "Checking if commit is from GitHub mirroring..."
+    - if git log -1 --pretty=format:'%s' | grep -q 'Mirrored from GitHub'; then
+      echo "Commit is from GitHub mirroring. Skipping...";
+      exit 0;
+      fi
+
+    - echo "Mirroring to GitHub..."
+    - git remote add github https://$GITHUB_TOKEN@github.com/your-username/your-repo.git
+    - git push --mirror github
+
+    - echo "Adding mirror commit message..."
+    - echo "Mirrored from GitLab" | git commit --allow-empty -F -
+    - git push origin
+  variables:
+    GITHUB_TOKEN: $GITHUB_TOKEN
