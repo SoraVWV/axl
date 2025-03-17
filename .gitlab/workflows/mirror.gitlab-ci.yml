@@ -1,8 +1,6 @@
-stages:
-  - mirror
-
 mirror_to_github:
   stage: mirror
+  needs: []
   script:
     - echo "Checking if commit is from GitHub mirroring..."
     - if git log -1 --pretty=format:'%s' | grep -q 'Mirrored from GitHub'; then
