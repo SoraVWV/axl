@@ -16,9 +16,19 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Mirror to GitLab
+      - name: Check if commit is from GitLab mirroring
+        id: check_commit
         run: |
-          git remote add gitlab https://oauth2:$GITLAB_TOKEN@gitlab.com/username/repo.git
+          if git log -1 --pretty=format:'%s' | grep -q 'Mirrored from GitLab'; then
+            echo "::set-output name=is_mirrored::true"
+          else
+            echo "::set-output name=is_mirrored::false"
+          fi
+
+      - name: Mirror to GitLab
+        if: steps.check_commit.outputs.is_mirrored == 'false'
+        run: |
+          git remote add gitlab https://oauth2:$GITLAB_TOKEN@gitlab.axolotl-lang.ru/compiler/lite.git
           git push --mirror gitlab
         env:
           GITLAB_TOKEN: ${{ secrets.GITLAB_TOKEN }}
