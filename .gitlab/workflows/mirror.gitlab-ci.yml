@@ -13,7 +13,7 @@ mirror_to_github:
     - git remote remove github || true
 
     - echo "Mirroring to GitHub..."
-    - git remote add github "https://$GITHUB_TOKEN@github.com/lite/compiler.git"
+    - git remote add github "https://$GITHUB_TOKEN@github.com/SoraVWV/axl.git"
     - git push --mirror github
 
     - echo "Adding mirror commit message..."
