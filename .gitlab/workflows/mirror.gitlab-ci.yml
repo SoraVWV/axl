@@ -1,3 +1,5 @@
+image: ruby:2.7
+
 mirror_to_github:
   stage: mirror
   needs: []
