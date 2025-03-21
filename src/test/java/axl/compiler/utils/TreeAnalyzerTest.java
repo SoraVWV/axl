@@ -2,15 +2,14 @@ package axl.compiler.utils;
 
 import axl.compiler.parser.data.Node;
 import lombok.Getter;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+@SuppressWarnings("ALL")
 public class TreeAnalyzerTest {
     private static final Node node = new ListNode(List.of(
             new TextNode("First"),
@@ -75,6 +74,7 @@ public class TreeAnalyzerTest {
 
     @Getter
     private static class TextNode implements Node {
+
         private final String text;
 
         private TextNode(String text) {

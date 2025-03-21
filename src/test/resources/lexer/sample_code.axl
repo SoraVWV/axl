@@ -1,0 +1,7 @@
+//
+fn main(args: Array<String>) -> Int {
+    println("Hello, World!") /*
+        jlfkdvf
+    */
+    return 0 // rar
+}
