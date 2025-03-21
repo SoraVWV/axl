@@ -125,4 +125,51 @@ public class TokenStreamTest {
             
         assertFalse(stream.hasNext());
     }
+
+    @Test
+    @DisplayName("tokenization escaped characters")
+    public void escapedCharactersTokenization() throws IOException {
+        Lexer lexer = new Lexer();
+        lexer.setContent(loadContent("escaped_characters.axl"));
+        ((TokenStreamImpl) stream).getLexer().setContent(lexer.getContent());
+
+        final List<TokenType> expectedTokens = Arrays.asList(
+                TokenType.STRING_LITERAL,
+                TokenType.CHAR_LITERAL,
+                TokenType.STRING_LITERAL
+        );
+
+        for (TokenType type : expectedTokens)
+            assertEquals(stream.next().getType(), type);
+
+        assertFalse(stream.hasNext());
+    }
+
+    @Test
+    @DisplayName("tokenization various numbers and literals")
+    public void numbersAndLiteralsTokenization() throws IOException {
+        Lexer lexer = new Lexer();
+        lexer.setContent(loadContent("numbers_and_literals.axl"));
+        ((TokenStreamImpl) stream).getLexer().setContent(lexer.getContent());
+
+        final List<TokenType> expectedTokens = Arrays.asList(
+                TokenType.HEX_LONG_NUMBER,
+                TokenType.BIN_LONG_NUMBER,
+                TokenType.DEC_LONG_NUMBER,
+                TokenType.HEX_NUMBER,
+                TokenType.BIN_NUMBER,
+                TokenType.DEC_NUMBER,
+                TokenType.FLOAT_NUMBER,
+                TokenType.DOUBLE_NUMBER,
+                TokenType.FLOAT_EXP_NUMBER,
+                TokenType.DOUBLE_EXP_NUMBER,
+                TokenType.CHAR_LITERAL,
+                TokenType.STRING_LITERAL
+        );
+
+        for (TokenType type : expectedTokens)
+            assertEquals(stream.next().getType(), type);
+
+        assertFalse(stream.hasNext());
+    }
 }
