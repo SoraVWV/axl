@@ -169,7 +169,8 @@ public class LexerLiteral {
         }
 
         if (lexer.peek() == 'E' || lexer.peek() == 'e') {
-            switch (lexer.next()) {
+            lexer.next();
+            switch (lexer.peek()) {
                 case '-', '+':
                     lexer.next();
                 default:
