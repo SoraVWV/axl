@@ -24,3 +24,4 @@ deploy-jacoco:
     - sshpass -p "$SSH_PASSWORD" scp -o StrictHostKeyChecking=no -r target/site/jacoco/ $SSH_USER@$SSH_HOST:/sites/
   only:
     - main
+    - test

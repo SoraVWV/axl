@@ -42,6 +42,11 @@ public class Lexer {
         return result;
     }
 
+    public void setContent(String content) {
+        this.content = content;
+        this.skip();
+    }
+
     public char peek(int n) {
         int offset = this.offset + n;
         if (offset >= getContent().length())
