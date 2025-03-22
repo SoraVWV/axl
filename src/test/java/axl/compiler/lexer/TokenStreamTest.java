@@ -2,6 +2,7 @@ package axl.compiler.lexer;
 
 import axl.compiler.lexer.data.Lexer;
 import axl.compiler.lexer.data.TokenType;
+import axl.compiler.lexer.exception.IllegalLexerContentException;
 import axl.compiler.lexer.impl.TokenStreamImpl;
 import axl.compiler.lexer.impl.feature.LexerIdentify;
 import axl.compiler.lexer.impl.feature.LexerLiteral;
@@ -16,8 +17,7 @@ import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class TokenStreamTest {
 
@@ -96,6 +96,16 @@ public class TokenStreamTest {
         ((TokenStreamImpl) stream).getLexer().setContent(lexer.getContent());
 
         assertFalse(stream.hasNext());
+    }
+
+    @Test
+    @DisplayName("tokenization with non closed comment")
+    public void commentNotClosedTokenization() {
+        Lexer lexer = new Lexer();
+        assertThrows(
+                IllegalLexerContentException.class,
+                () -> lexer.setContent(loadContent("comment_not_closed.axl"))
+        );
     }
 
     @Test
