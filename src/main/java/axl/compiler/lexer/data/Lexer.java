@@ -24,6 +24,11 @@ public class Lexer {
 
     private int tokenId;
 
+    public void setContent(String content) {
+        this.content = content;
+        this.skip();
+    }
+
     public void next(int n) {
         for (int i = 0; i < n; i++)
             next();
@@ -40,11 +45,6 @@ public class Lexer {
         offset++;
 
         return result;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-        this.skip();
     }
 
     public char peek(int n) {
