@@ -6,7 +6,7 @@
 
     <groupId>axl.compiler</groupId>
     <artifactId>axl</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0-PROTOTYPE</version>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>

@@ -1,9 +1,9 @@
 package axl.compiler.parser;
 
+import axl.compiler.data.Node;
 import axl.compiler.lexer.TokenStream;
 import axl.compiler.lexer.data.Token;
 import axl.compiler.lexer.data.TokenType;
-import axl.compiler.parser.data.Node;
 import axl.compiler.parser.exception.IllegalParserContentException;
 import org.jetbrains.annotations.Nullable;
 

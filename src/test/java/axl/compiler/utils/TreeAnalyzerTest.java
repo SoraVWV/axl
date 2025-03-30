@@ -1,6 +1,6 @@
 package axl.compiler.utils;
 
-import axl.compiler.parser.data.Node;
+import axl.compiler.data.Node;
 import lombok.Getter;
 import org.junit.jupiter.api.Test;
 

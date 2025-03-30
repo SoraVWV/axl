@@ -1,10 +1,10 @@
 package axl.compiler.parser.impl.feature;
 
+import axl.compiler.data.RootNode;
+import axl.compiler.data.declaration.ImportNode;
+import axl.compiler.data.declaration.PackageNode;
 import axl.compiler.lexer.data.Token;
 import axl.compiler.lexer.data.TokenType;
-import axl.compiler.parser.data.RootNode;
-import axl.compiler.parser.data.declaration.ImportNode;
-import axl.compiler.parser.data.declaration.PackageNode;
 import axl.compiler.parser.exception.IllegalParserContentException;
 import axl.compiler.parser.impl.SyntaxAnalyzerImpl;
 import lombok.AllArgsConstructor;
@@ -60,18 +60,18 @@ public class ParserRoot implements ParserFeature {
 
             PackageNode packageNode = new PackageNode(root);
             packageNode.setPackageToken(packageToken);
-            packageNode.setLocation(new ArrayList<>());
-            root.setPackageNode(packageNode);
+            packageNode.setLocationTokens(new ArrayList<>());
+            root.setLocation(packageNode);
 
             List<TokenType> context = analyzer.getTokenStream().getContext();
             analyzer.getTokenStream().setContext(locationPackageContext);
 
             Token locationPartToken = analyzer.eat(TokenType.IDENTIFY);
-            packageNode.getLocation().add(locationPartToken);
+            packageNode.getLocationTokens().add(locationPartToken);
 
             while (analyzer.boolEat(TokenType.DOT)) {
                 locationPartToken = analyzer.eat(TokenType.IDENTIFY);
-                packageNode.getLocation().add(locationPartToken);
+                packageNode.getLocationTokens().add(locationPartToken);
             }
 
             analyzer.getTokenStream().setContext(context);
@@ -87,37 +87,37 @@ public class ParserRoot implements ParserFeature {
         public void analyze(SyntaxAnalyzerImpl analyzer) {
             analyzer.getFeatures().pop();
 
-            if (root.getImportNodes() == null)
-                root.setImportNodes(new ArrayList<>());
+            if (root.getImports() == null)
+                root.setImports(new ArrayList<>());
 
             ImportNode importNode = new ImportNode(root);
             importNode.setImportToken(importToken);
-            importNode.setLocation(new ArrayList<>());
-            root.getImportNodes().add(importNode);
+            importNode.setLocationTokens(new ArrayList<>());
+            root.getImports().add(importNode);
 
             List<TokenType> context = analyzer.getTokenStream().getContext();
             analyzer.getTokenStream().setContext(locationImportContext);
 
             Token locationPartToken = analyzer.eat(TokenType.IDENTIFY);
-            importNode.getLocation().add(locationPartToken);
+            importNode.getLocationTokens().add(locationPartToken);
 
             while (analyzer.boolEat(TokenType.DOT)) {
                 Token starToken = analyzer.lowEat(TokenType.MULTIPLY);
                 if (starToken != null) {
-                    importNode.setStar(starToken);
+                    importNode.setStarToken(starToken);
                     break;
                 }
 
                 locationPartToken = analyzer.eat(TokenType.IDENTIFY);
-                importNode.getLocation().add(locationPartToken);
+                importNode.getLocationTokens().add(locationPartToken);
             }
 
             Token asToken = analyzer.lowEat(TokenType.AS);
             if (asToken != null) {
-                if (importNode.getStar() == null) {
-                    importNode.setAs(asToken);
+                if (importNode.getStarToken() == null) {
+                    importNode.setAsToken(asToken);
                     Token name = analyzer.eat(TokenType.IDENTIFY);
-                    importNode.setName(name);
+                    importNode.setNameToken(name);
                 } else {
                     throw new IllegalParserContentException(asToken, "Associations cannot be used when importing all elements");
                 }
