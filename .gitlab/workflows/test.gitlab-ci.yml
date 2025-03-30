@@ -1,6 +1,6 @@
 analyze-tests:
   stage: test
-  image: maven:3.9.7-amazoncorretto
+  image: maven:3.9.7-amazoncorretto-17
   tags:
     - axl
   script:
@@ -16,7 +16,7 @@ analyze-tests:
 
 deploy-jacoco:
   stage: deploy
-  image: maven:3.9.7-amazoncorretto
+  image: maven:3.9.7-amazoncorretto-17
   tags:
     - axl
   script:
