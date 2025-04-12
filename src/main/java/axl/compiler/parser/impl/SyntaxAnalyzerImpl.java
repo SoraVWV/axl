@@ -1,12 +1,13 @@
 package axl.compiler.parser.impl;
 
-import axl.compiler.data.Node;
+import axl.compiler.data.ExpressionNode;
 import axl.compiler.data.RootNode;
 import axl.compiler.lexer.TokenStream;
 import axl.compiler.parser.SyntaxAnalyzer;
 import axl.compiler.parser.data.RootSyntaxNode;
 import axl.compiler.parser.impl.feature.ParserFeature;
-import axl.compiler.parser.impl.feature.ParserRoot;
+import axl.compiler.parser.impl.feature.ParserRootFeature;
+import axl.compiler.parser.impl.feature.expression.OperatorEntry;
 import lombok.Data;
 
 import java.util.Stack;
@@ -14,11 +15,11 @@ import java.util.Stack;
 @Data
 public class SyntaxAnalyzerImpl implements SyntaxAnalyzer<RootSyntaxNode> {
 
+    private static final Stack<OperatorEntry> context = new Stack<>();
+
+    private static final Stack<ExpressionNode<?>> nodes = new Stack<>();
+
     private final TokenStream tokenStream;
-
-    private final Stack<Node<?>> nodes = new Stack<>();
-
-    private final Stack<Object> context = new Stack<>();
 
     private final Stack<ParserFeature> features = new Stack<>();
 
@@ -26,7 +27,7 @@ public class SyntaxAnalyzerImpl implements SyntaxAnalyzer<RootSyntaxNode> {
     public RootNode analyze() {
         RootNode root = new RootNode();
 
-        ParserRoot rootFeature = new ParserRoot();
+        ParserRootFeature rootFeature = new ParserRootFeature();
         rootFeature.setRoot(root);
         features.push(rootFeature);
         rootFeature.pushFeatures(features);

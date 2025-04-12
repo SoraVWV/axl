@@ -1,127 +1,16 @@
 package axl.example
 
-import axl.lang.println
-import axl.lang.print as write
+val mul = (a: Int) {
+    return (b: Int) {
+        return a * b
+    }
+}
 
-import axl.lang.* as base
-
-/* * * * * * * * * * * * * * * * * * * *
- * `fn` declaration
-  * * * * * * * * * * * * * * * * * * */
-
-// non-type (Void) / non-body
-
-fn main(args: Array<String>) -> Int {
+val main = () {
+    val double = mul(2)
+    println(double(1)) // 2
+    println(double(2)) // 4
+    println(double(3)) // 6
+    println(double(4)) // 8
     return 0
-}
-
-val main: () = {
-    println("Hi")
-}
-
-// typed / non-body
-fn main() -> Type
-
-    // non-type (Type Inference) / body
-fn main() stmt
-
-// typed / body
-fn main() -> Type stmt
-
-/* * * * * * * * * * * * * * * * * * * *
- * `if` statement / break-able, continue-able
-  * * * * * * * * * * * * * * * * * * */
-
-if expr stmt
-// optional:
-else stmt
-
-/* * * * * * * * * * * * * * * * * * * *
- * `while` statement
-  * * * * * * * * * * * * * * * * * * */
-
-while expr stmt
-// optional:
-else stmt
-
-/* * * * * * * * * * * * * * * * * * * *
- * `for` statement
-  * * * * * * * * * * * * * * * * * * */
-
-for x in iterator stmt
-
-/* * * * * * * * * * * * * * * * * * * *
- * `return` statement
-  * * * * * * * * * * * * * * * * * * */
-
-return /* optional */ expr
-
-/* * * * * * * * * * * * * * * * * * * *
- * `var`/`val` statement/expression
-  * * * * * * * * * * * * * * * * * * */
-
-// Type Inference
-val x = 3 + (var y: Type = 3)
-
-
-/* * * * * * * * * * * * * * * * * * * *
- * `lambda` expression
-  * * * * * * * * * * * * * * * * * * */
-
-val sum = (a: Type, b: Type) // Type Inference
-    a + b
-
-val sum = (a: Type, b: Type) { // Type Inference
-    a + b
-}
-
-val sum = (a: Type, b: Type) -> Type
-    a + b
-
-val sum = (a: Type, b: Type) -> Type {
-    return a + b
-}
-
-var `a + b` = sum(a + b)
-
-
-/* * * * * * * * * * * * * * * * * * * *
- * `struct` declaration
-  * * * * * * * * * * * * * * * * * * */
-
-struct Vector1 {
-
-    var x: Double = 0
-
-    val sum = (obj: Vector1) -> Vector1
-        new Vector1(this.x + obj.x)
-
-    val sub = (obj: Vector1) -> Vector1
-        new Vector1(this.x - obj.x)
-
-    val mul = (obj: Vector1) -> Vector1
-        new Vector1(this.x * obj.x)
-
-    val div = (obj: Vector1) -> Vector1
-        new Vector1(this.x / obj.x)
-}
-
-struct Vector2 -> Vector1 {
-
-    var y: Double = 0
-
-    val sum = (obj: Any) -> Vector2
-        if obj is Vector2
-            new Vector2(this.x + obj.x, this.y + obj.y)
-        else
-            new Vector2(this.x + obj.x, this.y)
-
-    val sub = (obj: Any) -> Vector2
-        new Vector2(this.x - obj.x, this.y)
-
-    val mul = (obj: Any) -> Vector2
-        new Vector2(this.x * obj.x, this.y)
-
-    val div = (obj: Any) -> Vector2
-        new Vector2(this.x / obj.x, this.y)
 }

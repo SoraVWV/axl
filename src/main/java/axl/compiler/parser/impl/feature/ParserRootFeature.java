@@ -11,25 +11,12 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Stack;
 
 @Data
-public class ParserRoot implements ParserFeature {
+public class ParserRootFeature implements ParserFeature {
 
     private RootNode root;
-
-    private static List<TokenType> locationPackageContext = List.of(
-            TokenType.IDENTIFY,
-            TokenType.DOT
-    );
-
-    private static List<TokenType> locationImportContext = List.of(
-            TokenType.IDENTIFY,
-            TokenType.DOT,
-            TokenType.AS,
-            TokenType.MULTIPLY
-    );
 
     public void pushFeatures(Stack<ParserFeature> features) {
         features.push(analyzer -> {
@@ -39,17 +26,17 @@ public class ParserRoot implements ParserFeature {
                 return;
             }
 
-            features.push(new ParserRootImport(importToken));
+            features.push(new ParserRootImportFeature(importToken));
         });
-        features.push(new ParserRootPackage());
+        features.push(new ParserRootPackageFeature());
     }
 
     @Override
     public void analyze(SyntaxAnalyzerImpl analyzer) {
-
+        // TODO
     }
 
-    private class ParserRootPackage implements ParserFeature {
+    private class ParserRootPackageFeature implements ParserFeature {
 
         @Override
         public void analyze(SyntaxAnalyzerImpl analyzer) {
@@ -63,9 +50,6 @@ public class ParserRoot implements ParserFeature {
             packageNode.setLocationTokens(new ArrayList<>());
             root.setLocation(packageNode);
 
-            List<TokenType> context = analyzer.getTokenStream().getContext();
-            analyzer.getTokenStream().setContext(locationPackageContext);
-
             Token locationPartToken = analyzer.eat(TokenType.IDENTIFY);
             packageNode.getLocationTokens().add(locationPartToken);
 
@@ -73,13 +57,11 @@ public class ParserRoot implements ParserFeature {
                 locationPartToken = analyzer.eat(TokenType.IDENTIFY);
                 packageNode.getLocationTokens().add(locationPartToken);
             }
-
-            analyzer.getTokenStream().setContext(context);
         }
     }
 
     @AllArgsConstructor
-    private class ParserRootImport implements ParserFeature {
+    private class ParserRootImportFeature implements ParserFeature {
 
         private final Token importToken;
 
@@ -94,9 +76,6 @@ public class ParserRoot implements ParserFeature {
             importNode.setImportToken(importToken);
             importNode.setLocationTokens(new ArrayList<>());
             root.getImports().add(importNode);
-
-            List<TokenType> context = analyzer.getTokenStream().getContext();
-            analyzer.getTokenStream().setContext(locationImportContext);
 
             Token locationPartToken = analyzer.eat(TokenType.IDENTIFY);
             importNode.getLocationTokens().add(locationPartToken);
@@ -122,8 +101,6 @@ public class ParserRoot implements ParserFeature {
                     throw new IllegalParserContentException(asToken, "Associations cannot be used when importing all elements");
                 }
             }
-
-            analyzer.getTokenStream().setContext(context);
         }
     }
 }
